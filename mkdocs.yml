@@ -1,0 +1,113 @@
+site_name: Cours de Première NSI - O. Godonou
+site_url: https://ogodonou.github.io/1NSI/
+repo_url: https://github.com/ogodonou/1NSI
+repo_name: ogodonou/1NSI
+edit_uri: ""
+
+nav:
+  - Accueil: index.md
+  - "T0 Histoire de l'informatique": T00_HistoireInformatique/index.html
+  - T1 Types de base:
+      - Types de base: T01_TypesBase/accueil.md
+      - "T1.1 Écriture d'un entier dans une base": T01_TypesBase/T1.1_Bases.md
+      - T1.2 Valeurs booléennes: T01_TypesBase/T1.2_Booleens.md
+      - T1.3 Représentation des entiers relatifs: T01_TypesBase/T1.3_Relatifs.md
+      - T1.4 Flottants: T01_TypesBase/T1.4_Flottants.md
+  - T2 Types construits:
+      - Types construits: T02_TypesConstruits/accueil.md
+      - T2.1 Tableaux et listes: T02_TypesConstruits/T2.1_Listes.md
+      - T2.2 Dictionnaires: T02_TypesConstruits/T2.2_Dictionnaires.md
+  - "T3 Trait. données":
+      - Traitement de données en tables: T03_TraitementDonnees/accueil.md
+      - T3.1 Tables de données: T03_TraitementDonnees/T3.1_Manipulation.md
+      - T3.2 Opérations sur les tables: T03_TraitementDonnees/T3.2_TriTable.md
+      - T3.3 Fusion (jointure) de tables: T03_TraitementDonnees/T3.3_FusionTable.md
+  - T4 Web:
+      - "Interactions homme-machine sur le Web": T04_IHMWeb/accueil.md
+      - T4.1 HTML & CSS: T04_IHMWeb/T4.1_HTML_CSS.md
+      - T4.2 Interaction - Javascript: T04_IHMWeb/T4.2_Interactions.md
+      - T4.3 Protocole HTTP: T04_IHMWeb/T4.3_HTTP.md
+      - "T4.4 Formulaires, GET et POST": T04_IHMWeb/T4.4_RequetesFormulaire.md
+  - T5 Architectures:
+      - "Architectures matérielles et systèmes d'exploitation": T05_Architectures/accueil.md
+      - T5.1 Architecture de Von Neumann: T05_Architectures/T5.1_VonNeumann.md
+      - T5.2 Commandes UNIX: T05_Architectures/T5.2_UNIX.md
+      - "T5.3 Architecture d'un réseau": T05_Architectures/T5.3_Reseaux.md
+      - T5.4 Protocoles de communication: T05_Architectures/T5.4_Protocole.md
+  - T6 Programmation:
+      - Langages et programmation: T06_Python/accueil.md
+      - "6.1.0 Prise en main de Python": T06_Python/T6.1_0_Python.md
+      - 6.1.1 Les variables: T06_Python/T6.1_1_Variables.md
+      - 6.1.2 La boucle for: T06_Python/T6.1_2_For.md
+      - "6.1.3 L'instruction conditionnelle if": T06_Python/T6.1_3_If.md
+      - 6.1.4 La boucle while: T06_Python/T6.1_4_While.md
+      - 6.1.5 Les fonctions: T06_Python/T6.1_5_Fonctions.md
+      - T6.2 Utilisation de bibliothèques: T06_Python/T6.2_Bibliotheques.md
+      - T6.3 Tester une fonction: T06_Python/T6.3_Tests.md
+      - T6.4 Spécification: T06_Python/T6.4_Specification.md
+  - T7 Algorithmique:
+      - Algorithmique: T07_Algorithmes/accueil.md
+      - T7.1 Recherche par dichotomie: T07_Algorithmes/T7.1_Dichotomie.md
+      - T7.2 Tri par sélection: T07_Algorithmes/T7.2_Tri_selection.md
+      - T7.3 Tri par insertion: T07_Algorithmes/T7.3_Tri_insertion.md
+      - T7.4 Algorithmes gloutons: T07_Algorithmes/T7.4_Gloutons.md
+  - Extras: T08_Extras/accueil.md
+  - Évaluations:
+      - Évaluations: T09_Evaluations/accueil.md
+      - "DM n°1 - Bases numériques et booléens": T09_Evaluations/DM1_Bases.md
+      - "DM n°2 - Listes et dictionnaires": T09_Evaluations/DM2_ListesDictionnaires.md
+      - "DS n°1 - Python : variables, boucles, fonctions": T09_Evaluations/DS1_Python.md
+      - "DS n°2 - Algorithmique et tri": T09_Evaluations/DS2_Algorithmique.md
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Basculer en mode sombre
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Basculer en mode clair
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.instant
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: "⚓︎"
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js
+
+plugins:
+  - search
+
+copyright: "CC BY-SA / O. Godonou"

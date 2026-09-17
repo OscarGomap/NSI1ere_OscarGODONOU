@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histoire de l'informatique — NSI Première</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEEAE0;
+    --paper-2:#F7F4EC;
+    --ink:#1C2B39;
+    --ink-soft:#4A5A68;
+    --line:#CDC5AE;
+    --brass:#A9702F;
+    --verdigris:#3C6E62;
+    --amber:#C98A2C;
+    --card:#FFFDF8;
+    --shadow: rgba(28,43,57,0.14);
+    --maxw: 880px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background-color:var(--paper-2);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.65;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(28,43,57,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28,43,57,0.045) 1px, transparent 1px);
+    background-size:28px 28px;
+    pointer-events:none;
+    z-index:0;
+  }
+  h1,h2,h3{
+    font-family:'IBM Plex Serif', serif;
+    color:var(--ink);
+    line-height:1.2;
+    margin-top:0;
+  }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color:var(--verdigris); }
+  a:hover{ color:var(--brass); }
+
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:rgba(238,234,224,0.94);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px; margin:0 auto;
+    display:flex; gap:2px; overflow-x:auto;
+    padding:0 16px;
+    scrollbar-width:none;
+  }
+  .nav-inner::-webkit-scrollbar{display:none;}
+  nav a{
+    white-space:nowrap;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    letter-spacing:.02em;
+    text-decoration:none;
+    color:var(--ink-soft);
+    padding:12px 10px;
+    border-bottom:2px solid transparent;
+  }
+  nav a:hover{ color:var(--ink); border-bottom-color:var(--amber); }
+
+  header.hero{
+    position:relative; z-index:1;
+    max-width:1080px; margin:0 auto;
+    padding:64px 24px 40px;
+    display:grid; grid-template-columns:1.3fr 0.9fr; gap:32px;
+    align-items:center;
+  }
+  header.hero .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--brass);
+    margin-bottom:10px;
+  }
+  header.hero h1{
+    font-size:clamp(2.1rem, 4.2vw, 3.4rem);
+    max-width:12ch;
+  }
+  header.hero p.lede{
+    font-size:1.08rem;
+    color:var(--ink-soft);
+    max-width:46ch;
+  }
+  .gear-wrap{ display:flex; justify-content:center; }
+  .gear-wrap svg{ width:100%; max-width:280px; height:auto; }
+  .gear{ transform-origin:center; animation:spin 22s linear infinite; }
+  .gear.rev{ animation-direction:reverse; animation-duration:16s; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce){ .gear{ animation:none; } }
+
+  main{ position:relative; z-index:1; max-width:var(--maxw); margin:0 auto; padding:0 24px 100px; }
+  section{ padding:52px 0; border-top:1px solid var(--line); }
+  section:first-of-type{ border-top:none; }
+  .section-head{ margin-bottom:28px; }
+  .section-head .tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--verdigris);
+    border:1px solid var(--verdigris);
+    border-radius:3px;
+    padding:2px 8px;
+    margin-bottom:12px;
+  }
+  .section-head h2{ font-size:1.7rem; }
+  .section-head .sub{ color:var(--ink-soft); margin-top:6px; max-width:60ch; }
+
+  .box{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--verdigris);
+    border-radius:2px;
+    padding:20px 22px;
+    box-shadow:0 2px 10px var(--shadow);
+    margin:18px 0;
+  }
+  .box.amber{ border-left-color:var(--amber); }
+  .box.brass{ border-left-color:var(--brass); }
+  .box h3{ font-size:1.02rem; margin-bottom:8px; }
+  .box p{ margin:6px 0; }
+  .box p.small{ font-size:0.92rem; color:var(--ink-soft); }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:4px 10px;
+    border-radius:3px;
+    color:var(--ink-soft);
+  }
+
+  .timeline{ position:relative; padding-left:0; }
+  .timeline::before{
+    content:"";
+    position:absolute; left:78px; top:0; bottom:0;
+    width:2px;
+    background:repeating-linear-gradient(180deg, var(--brass) 0 6px, transparent 6px 12px);
+  }
+  .tl-item{
+    position:relative;
+    display:grid;
+    grid-template-columns:78px 1fr;
+    column-gap:22px;
+    margin-bottom:30px;
+  }
+  .tl-year{
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600;
+    font-size:0.86rem;
+    color:var(--brass);
+    text-align:right;
+    padding-top:3px;
+    position:relative;
+  }
+  .tl-year::after{
+    content:"";
+    position:absolute; right:-27px; top:6px;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--card);
+    border:2px solid var(--brass);
+  }
+  .tl-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:14px 18px;
+    box-shadow:0 1px 6px var(--shadow);
+  }
+  .tl-card h4{ margin:0 0 6px; font-family:'IBM Plex Serif',serif; font-size:1.02rem; }
+  .tl-card p{ margin:0; font-size:0.95rem; color:var(--ink-soft); }
+  .tl-card .who{ color:var(--verdigris); font-weight:600; }
+
+  @media (max-width:600px){
+    .timeline::before{ left:52px; }
+    .tl-item{ grid-template-columns:52px 1fr; column-gap:14px; }
+    .tl-year{ font-size:0.72rem; }
+    .tl-year::after{ right:-19px; }
+  }
+
+  .feature{ display:grid; grid-template-columns:1fr; gap:20px; }
+  .video-frame{
+    position:relative; width:100%; padding-top:56.25%;
+    border-radius:4px; overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 4px 18px var(--shadow);
+  }
+  .video-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  figcaption{ font-size:0.85rem; color:var(--ink-soft); margin-top:8px; }
+
+  .diagram-wrap{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:24px;
+    box-shadow:0 2px 10px var(--shadow);
+  }
+  .diagram-wrap svg{ width:100%; height:auto; }
+  .diagram-legend{ display:grid; grid-template-columns:1fr 1fr; gap:10px 20px; margin-top:18px; font-size:0.9rem; }
+  .diagram-legend div span.dot{ display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+
+  table.gen-table{ width:100%; border-collapse:collapse; margin-top:10px; font-size:0.92rem; }
+  table.gen-table th, table.gen-table td{
+    border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;
+  }
+  table.gen-table thead th{
+    background:var(--ink); color:var(--paper-2);
+    font-family:'IBM Plex Mono', monospace; font-weight:500; font-size:0.78rem;
+  }
+  table.gen-table tbody tr:nth-child(odd){ background:var(--card); }
+  table.gen-table td.era{ font-family:'IBM Plex Mono', monospace; color:var(--brass); white-space:nowrap; }
+
+  .lang-strip{ display:flex; overflow-x:auto; gap:14px; padding-bottom:10px; margin-top:16px; }
+  .lang-card{
+    flex:0 0 230px;
+    background:var(--card); border:1px solid var(--line); border-radius:3px;
+    padding:14px 16px; box-shadow:0 1px 6px var(--shadow);
+  }
+  .lang-card .yr{ font-family:'IBM Plex Mono',monospace; color:var(--brass); font-size:0.8rem; }
+  .lang-card h4{ margin:4px 0 6px; font-size:1rem; }
+  .lang-card p{ margin:0; font-size:0.87rem; color:var(--ink-soft); }
+
+  ol.criteria{ padding-left:1.2em; }
+  ol.criteria li{ margin-bottom:6px; }
+
+  .quiz{ display:flex; flex-direction:column; gap:16px; }
+  .q{ background:var(--card); border:1px solid var(--line); border-radius:3px; padding:16px 18px; }
+  .q p.question{ font-weight:600; margin:0 0 10px; }
+  .q .opts{ display:flex; flex-direction:column; gap:6px; }
+  .q button.opt{
+    text-align:left;
+    font-family:'IBM Plex Sans', sans-serif; font-size:0.92rem;
+    background:var(--paper); border:1px solid var(--line); border-radius:3px;
+    padding:8px 12px; cursor:pointer; color:var(--ink);
+  }
+  .q button.opt:hover{ border-color:var(--verdigris); }
+  .q button.opt.correct{ background:#DDEBE5; border-color:var(--verdigris); }
+  .q button.opt.wrong{ background:#F2DCD3; border-color:#B0503A; }
+  .q .feedback{ font-size:0.85rem; margin-top:8px; color:var(--ink-soft); display:none; }
+  .quiz-score{ font-family:'IBM Plex Mono',monospace; font-size:0.9rem; color:var(--verdigris); }
+
+  footer{
+    max-width:1080px; margin:0 auto; padding:36px 24px 56px;
+    font-size:0.82rem; color:var(--ink-soft);
+    border-top:1px solid var(--line);
+  }
+  footer a{ color:var(--ink-soft); }
+  footer ul{ padding-left:1.1em; margin:10px 0; }
+
+  @media (max-width:720px){
+    header.hero{ grid-template-columns:1fr; padding-top:40px; }
+    .gear-wrap{ order:-1; max-width:180px; margin:0 auto; }
+    table.gen-table{ font-size:0.82rem; }
+    .diagram-legend{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../" title="Retour à l'accueil du site">&larr; Accueil du site</a>
+    <a href="#origines">Origines</a>
+    <a href="#babbage">Babbage &amp; Lovelace</a>
+    <a href="#naissance">Naissance de l'ordinateur</a>
+    <a href="#vonneumann">Von Neumann</a>
+    <a href="#generations">Générations</a>
+    <a href="#langages">Langages</a>
+    <a href="#connecte">Le monde connecté</a>
+    <a href="#premier">Le premier ordinateur ?</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="eyebrow">NSI · PREMIÈRE · THÈME 0</div>
+    <h1>Histoire de l'informatique</h1>
+    <p class="lede">Des rouages de la Pascaline aux réseaux de neurones : comment l'idée d'une machine capable de calculer, puis de raisonner, s'est construite en un peu plus de trois siècles.</p>
+  </div>
+  <div class="gear-wrap" aria-hidden="true">
+    <svg viewBox="0 0 220 220">
+      <g class="gear" fill="none" stroke="#A9702F" stroke-width="3">
+        <circle cx="110" cy="110" r="46"/>
+        <circle cx="110" cy="110" r="10" fill="#A9702F" stroke="none"/>
+        <path d="M110 56 v-14 M110 164 v14 M56 110 h-14 M164 110 h14
+                  M72 72 l-10 -10 M148 72 l10 -10 M72 148 l-10 10 M148 148 l10 10"/>
+      </g>
+      <g class="gear rev" fill="none" stroke="#3C6E62" stroke-width="3" transform="translate(60,-20)">
+        <circle cx="150" cy="150" r="28"/>
+        <circle cx="150" cy="150" r="6" fill="#3C6E62" stroke="none"/>
+        <path d="M150 116 v-10 M150 184 v10 M116 150 h-10 M184 150 h10"/>
+      </g>
+    </svg>
+  </div>
+</header>
+
+<main>
+
+  <section id="objectifs">
+    <div class="box brass">
+      <h3>Objectifs du chapitre</h3>
+      <p>Comprendre ce que recouvre le mot « informatique » et distinguer une donnée d'une information ; connaître les grandes étapes qui mènent des premières machines à calculer mécaniques à l'ordinateur programmable ; identifier les générations d'ordinateurs et les technologies qui les séparent ; savoir décrire l'architecture de Von Neumann, encore au cœur de la quasi-totalité des machines actuelles.</p>
+      <div class="chips">
+        <span class="chip">Donnée / Information</span>
+        <span class="chip">Programme</span>
+        <span class="chip">Matériel / Logiciel</span>
+        <span class="chip">UAL</span>
+        <span class="chip">Unité de contrôle</span>
+        <span class="chip">Mémoire</span>
+        <span class="chip">Architecture de Von Neumann</span>
+      </div>
+    </div>
+
+    <div class="box">
+      <h3>Informatique : une science, un mot récent</h3>
+      <p>Le mot <em>informatique</em> est une contraction d'« information » et d'« automatique », proposée en 1962 par Philippe Dreyfus. L'Académie française l'adopte en 1967 pour désigner la science du traitement automatique de l'information ; le mot essaimera ensuite dans d'autres langues (informatica, informatikk, informatika…).</p>
+      <p class="small">À distinguer : une <strong>donnée</strong> est un symbole brut sans interprétation (par exemple « 1980 », « 5 % ») ; une <strong>information</strong> est un ensemble de données auquel on donne un sens (« en 1980, le taux de natalité était de 5 % »). Un <strong>programme</strong> associe des <strong>données</strong> à une suite d'<strong>instructions</strong> ; le <strong>matériel</strong> (hardware) exécute les <strong>logiciels</strong> (software) qui tournent dessus.</p>
+    </div>
+  </section>
+
+  <section id="origines">
+    <div class="section-head">
+      <span class="tag">avant l'électronique</span>
+      <h2>Compter avec des rouages</h2>
+      <p class="sub">Avant même le mot « informatique », des inventeurs ont cherché à mécaniser le calcul — bien avant l'arrivée de l'électricité.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">~87<br>av. J.-C.</div>
+        <div class="tl-card">
+          <h4>La machine d'Anticythère</h4>
+          <p>Le plus vieux mécanisme à engrenages connu à ce jour. Cette calculatrice mécanique antique servait à prédire des positions astronomiques.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1623</div>
+        <div class="tl-card">
+          <h4>L'horloge calculante de Schickard</h4>
+          <p><span class="who">Wilhelm Schickard</span> construit pour l'astronome Kepler une machine destinée au calcul des éphémérides.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1642</div>
+        <div class="tl-card">
+          <h4>La Pascaline</h4>
+          <p><span class="who">Blaise Pascal</span> conçoit une machine entièrement mécanique à engrenages, capable d'additionner et de soustraire des nombres à huit chiffres.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1673</div>
+        <div class="tl-card">
+          <h4>La machine de Leibniz</h4>
+          <p><span class="who">Leibniz</span> s'inspire de la Pascaline pour créer une machine capable de multiplier et de diviser. Il perçoit aussi, avant tout le monde, l'intérêt du système binaire pour le calcul et la logique.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1725<br>—<br>1801</div>
+        <div class="tl-card">
+          <h4>Le métier à tisser programmable</h4>
+          <p>Le rouleau perforé de <span class="who">Bouchon</span> (1725), perfectionné par Falcon puis par <span class="who">Jacquard</span> (1801), automatise le tissage de motifs. Pour tisser un nouveau motif, on ne modifie pas la machine : on change simplement la carte. C'est, avant l'heure, l'idée d'un programme séparé du matériel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="babbage">
+    <div class="section-head">
+      <span class="tag">1823 – 1843</span>
+      <h2>Babbage &amp; Lovelace : l'ordinateur avant l'heure</h2>
+      <p class="sub">Un siècle avant l'électronique, un mathématicien anglais dessine déjà l'architecture d'un ordinateur.</p>
+    </div>
+
+    <div class="feature">
+      <figure class="video-frame">
+        <iframe src="https://www.youtube.com/embed/_SyOigrbeQs" title="L'Ordinateur à Vapeur ! — Scientory" allowfullscreen loading="lazy"></iframe>
+      </figure>
+      <figcaption>« L'Ordinateur à Vapeur ! » — Scientory 08. Une bonne introduction, en français, au rêve steampunk de Babbage et Lovelace.</figcaption>
+
+      <div class="box amber">
+        <h3>La machine à différences (1823)</h3>
+        <p>Inspirée par le métier à tisser de Jacquard, elle doit calculer automatiquement des tables mathématiques (logarithmes, tables de navigation) sans erreur humaine, grâce à la <em>méthode des différences finies</em> : on additionne des différences constantes plutôt que de refaire le calcul complet à chaque fois. Une série de colonnes de roues dentées, une addition mécanique répétée, et la table se construit toute seule. Faute de financement et de précision mécanique suffisante, Babbage ne la termine jamais.</p>
+      </div>
+
+      <div class="box">
+        <h3>La machine analytique (1834-1837) : le vrai saut conceptuel</h3>
+        <p>Cette fois, il ne s'agit plus de calculer une seule sorte de table, mais de concevoir une machine programmable à usage général — avec, déjà, la structure d'un ordinateur moderne :</p>
+        <ul>
+          <li><strong>le moulin</strong> (l'unité de calcul, l'ancêtre du processeur) ;</li>
+          <li><strong>le magasin</strong> (la mémoire, capable de stocker environ 1000 nombres) ;</li>
+          <li><strong>les cartes perforées</strong>, reprises du métier Jacquard, pour entrer données <em>et</em> instructions ;</li>
+          <li><strong>une unité de contrôle</strong>, qui orchestre la séquence des opérations, avec déjà des boucles et des branchements conditionnels.</li>
+        </ul>
+        <p class="small"><span class="who">Ada Lovelace</span>, en 1843, documente cette machine et rédige ce que l'on considère comme le premier programme informatique de l'histoire — jamais exécuté de son vivant, la machine n'ayant pas été construite. En 1991, une partie de la machine à différences a été reconstruite à partir des plans de Babbage et fonctionne parfaitement, prouvant qu'elle aurait pu voir le jour dès le XIX<sup>e</sup> siècle.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="naissance">
+    <div class="section-head">
+      <span class="tag">1854 – 1946</span>
+      <h2>La naissance de l'ordinateur</h2>
+      <p class="sub">Des fondations théoriques à la Seconde Guerre mondiale, qui précipite l'arrivée des premières machines électroniques.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">1854</div>
+        <div class="tl-card">
+          <h4>L'algèbre de Boole</h4>
+          <p><span class="who">George Boole</span> publie ses travaux sur la logique binaire. Purement théoriques à l'époque, ils deviendront un pilier des circuits électroniques modernes.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">~1890</div>
+        <div class="tl-card">
+          <h4>Les cartes perforées d'Hollerith</h4>
+          <p><span class="who">Herman Hollerith</span> utilise une machine à cartes perforées pour dépouiller le recensement américain. Sa société deviendra plus tard l'<strong>IBM</strong> que l'on connaît aujourd'hui.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1936</div>
+        <div class="tl-card">
+          <h4>La machine de Turing</h4>
+          <p><span class="who">Alan Turing</span> décrit un modèle théorique de machine universelle et démontre l'existence de problèmes indécidables (le fameux « problème de l'arrêt »). C'est le socle mathématique de l'informatique moderne.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1937<br>—<br>1939</div>
+        <div class="tl-card">
+          <h4>L'ABC d'Atanasoff et Berry</h4>
+          <p>Souvent cité comme le premier ordinateur électronique : binaire, mémoire et calcul séparés, composants électroniques plutôt que mécaniques — mais non programmable.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1940</div>
+        <div class="tl-card">
+          <h4>Bletchley Park</h4>
+          <p>Pour casser le chiffrement <em>Enigma</em> de l'armée allemande, les Britanniques construisent les « bombes », sous la direction de Turing : arithmétique binaire, horloge interne, sous-programmes… le tout classé secret défense jusqu'en 1975.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1941</div>
+        <div class="tl-card">
+          <h4>Le Z3 de Konrad Zuse</h4>
+          <p>Premier ordinateur programmable réellement fonctionnel au monde, encore électromécanique. Détruit par les bombardements en 1944.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1943</div>
+        <div class="tl-card">
+          <h4>Colossus &amp; l'ASCC/Mark I</h4>
+          <p><strong>Colossus</strong>, à Bletchley Park, est le premier ordinateur électronique <em>programmable</em>, conçu pour attaquer la machine de Lorenz. La même année, Harvard et IBM achèvent l'<strong>ASCC (Mark I)</strong>, un calculateur électromécanique dont le fonctionnement est très proche des plans de la machine analytique de Babbage.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1945</div>
+        <div class="tl-card">
+          <h4>Le premier « bug »</h4>
+          <p>Un papillon de nuit coincé dans les relais bloque le Mark II. <span class="who">Grace Murray Hopper</span> popularise le mot « bug » pour désigner tout ce qui empêche un programme de fonctionner.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1946</div>
+        <div class="tl-card">
+          <h4>L'ENIAC</h4>
+          <p><span class="who">Eckert et Mauchly</span> achèvent l'ENIAC : 30 tonnes, 67 m² au sol, premier ordinateur entièrement électronique à vocation généraliste.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="vonneumann">
+    <div class="section-head">
+      <span class="tag">1944</span>
+      <h2>L'architecture de Von Neumann</h2>
+      <p class="sub">Un modèle vieux de 80 ans, et pourtant toujours au cœur de la quasi-totalité des ordinateurs actuels.</p>
+    </div>
+    <p><span class="who">John von Neumann</span> rédige en 1944 le rapport qui décrit un calculateur à programme enregistré : une <strong>mémoire unique</strong> contient à la fois les données et les instructions du programme. Ce modèle se décompose en quatre parties reliées par un <strong>bus</strong> :</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 620 300" role="img" aria-label="Schéma de l'architecture de Von Neumann">
+        <g stroke="#A9702F" stroke-width="2.5" fill="none">
+          <line x1="310" y1="70" x2="310" y2="230"/>
+          <line x1="130" y1="150" x2="490" y2="150"/>
+        </g>
+        <rect x="230" y="30" width="160" height="60" rx="4" fill="#FFFDF8" stroke="#1C2B39" stroke-width="1.6"/>
+        <text x="310" y="55" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#1C2B39">MÉMOIRE</text>
+        <text x="310" y="72" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="10.5" fill="#4A5A68">programme + données</text>
+
+        <rect x="100" y="120" width="150" height="60" rx="4" fill="#FFFDF8" stroke="#3C6E62" stroke-width="1.6"/>
+        <text x="175" y="145" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#3C6E62">UNITÉ DE</text>
+        <text x="175" y="160" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#3C6E62">CONTRÔLE</text>
+
+        <rect x="370" y="120" width="150" height="60" rx="4" fill="#FFFDF8" stroke="#3C6E62" stroke-width="1.6"/>
+        <text x="445" y="145" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#3C6E62">UNITÉ ARITHMÉTIQUE</text>
+        <text x="445" y="160" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12.5" fill="#3C6E62">ET LOGIQUE (UAL)</text>
+
+        <rect x="230" y="210" width="160" height="60" rx="4" fill="#FFFDF8" stroke="#C98A2C" stroke-width="1.6"/>
+        <text x="310" y="235" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="13" fill="#C98A2C">ENTRÉES / SORTIES</text>
+        <text x="310" y="252" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="10.5" fill="#4A5A68">clavier, écran, disque…</text>
+
+        <circle cx="310" cy="150" r="4" fill="#A9702F"/>
+      </svg>
+      <div class="diagram-legend">
+        <div><span class="dot" style="background:#1C2B39"></span><strong>Mémoire</strong> — stocke à la fois le programme et les données qu'il manipule.</div>
+        <div><span class="dot" style="background:#3C6E62"></span><strong>Unité de contrôle</strong> — lit les instructions, les décode, pilote leur exécution.</div>
+        <div><span class="dot" style="background:#3C6E62"></span><strong>UAL</strong> — effectue les opérations arithmétiques et logiques de base.</div>
+        <div><span class="dot" style="background:#C98A2C"></span><strong>Entrées/sorties</strong> — font communiquer la machine avec le monde extérieur.</div>
+      </div>
+    </div>
+    <p class="small">Fait amusant : von Neumann attribuait lui-même la paternité de ce modèle à Alan Turing. C'est pourtant son nom qui est resté associé à cette architecture, aujourd'hui enseignée dans toutes les formations d'informatique.</p>
+  </section>
+
+  <section id="generations">
+    <div class="section-head">
+      <span class="tag">1946 – 1985</span>
+      <h2>Les générations d'ordinateurs</h2>
+      <p class="sub">Quatre ruptures technologiques majeures, qui font chuter la taille et le coût des machines à chaque étape.</p>
+    </div>
+
+    <table class="gen-table">
+      <thead>
+        <tr><th>Génération</th><th>Période</th><th>Technologie clé</th><th>Caractéristiques</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="era">1<sup>re</sup></td>
+          <td>1946 – 1956</td>
+          <td>Tubes à vide</td>
+          <td>Machines énormes, peu fiables, très gourmandes en énergie (l'ENIAC comptait près de 20 000 lampes). Programmation par câblage manuel.</td>
+        </tr>
+        <tr>
+          <td class="era">2<sup>e</sup></td>
+          <td>1957 – 1965</td>
+          <td>Transistor <span class="mono">(1947)</span></td>
+          <td>Inventé par Bardeen, Shockley et Brattain (Nobel 1956). Machines plus petites, plus fiables. Apparition de langages comme Fortran et Cobol.</td>
+        </tr>
+        <tr>
+          <td class="era">3<sup>e</sup></td>
+          <td>1965 – 1971</td>
+          <td>Circuit intégré <span class="mono">(1958)</span></td>
+          <td>Inventé par Jack Kilby (Nobel 2000). Plusieurs transistors sur une même puce : naissance des mini-ordinateurs, utilisés notamment par la NASA pour le programme Apollo.</td>
+        </tr>
+        <tr>
+          <td class="era">4<sup>e</sup></td>
+          <td>1971 – fin des années 1980</td>
+          <td>Microprocesseur <span class="mono">(1971)</span></td>
+          <td>Le 4004 d'Intel (Hoff &amp; Faggin) tient tous les composants d'un processeur sur une seule puce, de la taille d'un timbre. C'est la porte ouverte au micro-ordinateur personnel.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="timeline" style="margin-top:32px;">
+      <div class="tl-item">
+        <div class="tl-year">1971<br>—<br>1977</div>
+        <div class="tl-card">
+          <h4>Le micro-ordinateur arrive chez les particuliers</h4>
+          <p>Le <strong>Micral</strong> (1973, François Gernelle, France) est le premier micro-ordinateur commercialisé. L'<strong>Altaïr 8800</strong> (1975) popularise le kit électronique. <span class="who">Steve Jobs, Steve Wozniak et Ronald Wayne</span> fondent <strong>Apple</strong> en 1976 ; l'<strong>Apple II</strong> sort en 1977.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1975</div>
+        <div class="tl-card">
+          <h4>Naissance de Microsoft</h4>
+          <p><span class="who">Bill Gates et Paul Allen</span> fondent Micro-Soft. MS-DOS puis Windows domineront durablement le marché des systèmes d'exploitation.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1980<br>—<br>1998</div>
+        <div class="tl-card">
+          <h4>Des machines de plus en plus grand public</h4>
+          <p>Une décennie riche en machines devenues iconiques : IBM 5110, TRS-80, Commodore VIC-20, Sinclair ZX80, Atari ST, Macintosh (1984), Amiga… jusqu'à l'iMac G3 (1998), qui remet le design au centre du PC.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="langages">
+    <div class="section-head">
+      <span class="tag">1843 – aujourd'hui</span>
+      <h2>L'évolution des langages de programmation</h2>
+      <p class="sub">Du code binaire brut jusqu'aux langages que l'on écrit presque en anglais courant.</p>
+    </div>
+    <div class="lang-strip">
+      <div class="lang-card">
+        <div class="yr">1843</div>
+        <h4>Premiers algorithmes</h4>
+        <p>Ada Lovelace conçoit les premiers algorithmes destinés à la machine analytique de Babbage.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">1949</div>
+        <h4>Assembleur</h4>
+        <p>Premier langage à remplacer le code binaire par des symboles. Toujours utilisé aujourd'hui dans les systèmes temps réel.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">1952</div>
+        <h4>Autocode</h4>
+        <p>Conçu par Alick Glennie pour le Mark 1, c'est le premier langage compilé — une famille de langages qui donnera naissance à Fortran et Cobol.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">1954</div>
+        <h4>Fortran</h4>
+        <p>Développé par John Backus chez IBM pour le calcul scientifique. Encore utilisé aujourd'hui par la NASA.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">1959</div>
+        <h4>Cobol</h4>
+        <p>Devient le standard des applications de gestion. À la fin des années 1990, la grande majorité des entreprises l'utilisaient encore.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">1964</div>
+        <h4>BASIC</h4>
+        <p>Pensé pour être accessible aux débutants ; il dominera le marché naissant des ordinateurs domestiques dans les années 1970.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">1972</div>
+        <h4>C</h4>
+        <p>Toujours l'un des langages les plus utilisés au monde ; il est à l'origine de C#, Java, JavaScript, Python ou encore Go.</p>
+      </div>
+      <div class="lang-card">
+        <div class="yr">aujourd'hui</div>
+        <h4>Python, JavaScript, Java…</h4>
+        <p>Des langages haut niveau, lisibles, qui masquent presque entièrement la machine — jusqu'à ce qu'on redécouvre l'architecture qui tourne dessous !</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="connecte">
+    <div class="section-head">
+      <span class="tag">1969 – 2022</span>
+      <h2>Réseaux, Web et intelligence artificielle</h2>
+      <p class="sub">L'ordinateur isolé devient un nœud dans un réseau mondial, puis tient dans une poche.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">1955</div>
+        <div class="tl-card">
+          <h4>Le mot « ordinateur »</h4>
+          <p>À la demande d'IBM France, le professeur Jacques Perret propose ce mot ancien, issu du vocabulaire théologique, pour traduire <em>computer</em>.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1969</div>
+        <div class="tl-card">
+          <h4>Arpanet</h4>
+          <p>Le futur Internet démarre avec... 4 nœuds.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1989</div>
+        <div class="tl-card">
+          <h4>Le World Wide Web</h4>
+          <p><span class="who">Tim Berners-Lee</span> invente le WWW au CERN, pour que les chercheurs puissent partager leurs informations plus facilement.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">1997<br>—<br>2001</div>
+        <div class="tl-card">
+          <h4>Deep Blue, Google, Wikipédia</h4>
+          <p><strong>Deep Blue</strong> (IBM) bat Kasparov aux échecs en 1997. <strong>Google</strong> est fondé en 1998. <strong>Wikipédia</strong> voit le jour en 2001.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2004<br>—<br>2016</div>
+        <div class="tl-card">
+          <h4>L'ère des réseaux sociaux et du mobile</h4>
+          <p>Facebook (2004), YouTube (2005), Twitter (2006), l'iPhone (2007), WhatsApp (2009), Instagram et l'iPad (2010), Snapchat (2011), puis TikTok (2016) redessinent nos usages numériques.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2015<br>—<br>2022</div>
+        <div class="tl-card">
+          <h4>L'IA grand public</h4>
+          <p>OpenAI est fondée fin 2015. Le 30 novembre 2022, <strong>ChatGPT</strong> est lancé et dépasse 100 millions d'utilisateurs dès janvier 2023.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="premier">
+    <div class="section-head">
+      <span class="tag">pour aller plus loin</span>
+      <h2>Alors, quel fut vraiment le premier ordinateur ?</h2>
+      <p class="sub">La réponse dépend entièrement de la définition que l'on choisit.</p>
+    </div>
+    <p>Historiens et informaticiens retiennent en général cinq caractéristiques pour qu'une machine mérite le nom d'« ordinateur » :</p>
+    <ol class="criteria">
+      <li>être <strong>électronique</strong> ;</li>
+      <li>être <strong>numérique</strong> (et non analogique) ;</li>
+      <li>être <strong>programmable</strong> ;</li>
+      <li>pouvoir exécuter les quatre opérations élémentaires ;</li>
+      <li>pouvoir exécuter des <strong>programmes enregistrés en mémoire</strong>.</li>
+    </ol>
+    <p>Six machines construites entre 1937 et 1946 se disputent le titre, réparties en trois familles : deux <strong>machines à calculer</strong> non programmables (l'ABC en 1937, le Complex Number Calculator de Stibitz en 1939) ; deux <strong>machines électromécaniques programmables</strong> mais sans branchement conditionnel (le Zuse 3 en 1941, l'ASCC/Mark I en 1944) ; et deux <strong>machines électroniques spécialisées</strong> (Colossus en 1943, l'ENIAC en 1946). Selon la définition retenue, l'une ou l'autre peut légitimement prétendre au titre — ce qui explique pourquoi le débat reste, encore aujourd'hui, ouvert.</p>
+  </section>
+
+  <section id="quiz">
+    <div class="section-head">
+      <span class="tag">auto-évaluation</span>
+      <h2>Un petit quiz pour vérifier</h2>
+      <p class="sub">5 questions, réponses instantanées.</p>
+    </div>
+    <div class="quiz" id="quizApp">
+      <div class="q" data-correct="1">
+        <p class="question">1. Qui a inventé la Pascaline ?</p>
+        <div class="opts">
+          <button class="opt">Charles Babbage</button>
+          <button class="opt">Blaise Pascal</button>
+          <button class="opt">Gottfried Leibniz</button>
+        </div>
+        <p class="feedback">Blaise Pascal construit sa machine à calculer entre 1642 et 1644.</p>
+      </div>
+      <div class="q" data-correct="2">
+        <p class="question">2. Quelle machine de Babbage utilisait des cartes perforées inspirées du métier à tisser de Jacquard ?</p>
+        <div class="opts">
+          <button class="opt">La machine à différences</button>
+          <button class="opt">L'ENIAC</button>
+          <button class="opt">La machine analytique</button>
+        </div>
+        <p class="feedback">La machine analytique (1834-1837) utilisait des cartes perforées pour entrer données et instructions.</p>
+      </div>
+      <div class="q" data-correct="0">
+        <p class="question">3. Quel modèle d'architecture est encore utilisé dans la quasi-totalité des ordinateurs modernes ?</p>
+        <div class="opts">
+          <button class="opt">L'architecture de Von Neumann</button>
+          <button class="opt">L'architecture de Turing</button>
+          <button class="opt">L'architecture Harvard-IBM</button>
+        </div>
+        <p class="feedback">John von Neumann décrit ce modèle en 1944, avec une mémoire unique pour le programme et les données.</p>
+      </div>
+      <div class="q" data-correct="1">
+        <p class="question">4. D'où vient le mot « bug » en informatique, popularisé par Grace Hopper ?</p>
+        <div class="opts">
+          <button class="opt">Une erreur de traduction</button>
+          <button class="opt">Un papillon de nuit coincé dans un relais</button>
+          <button class="opt">Le nom d'un logiciel défectueux</button>
+        </div>
+        <p class="feedback">En 1945, un papillon coincé dans les circuits du Mark II bloque la machine — d'où le terme « bug » (bestiole).</p>
+      </div>
+      <div class="q" data-correct="2">
+        <p class="question">5. Quelle invention de 1958 a permis la 3<sup>e</sup> génération d'ordinateurs ?</p>
+        <div class="opts">
+          <button class="opt">Le transistor</button>
+          <button class="opt">Le microprocesseur</button>
+          <button class="opt">Le circuit intégré</button>
+        </div>
+        <p class="feedback">Jack Kilby invente le circuit intégré en 1958, ce qui vaudra le prix Nobel de physique en 2000.</p>
+      </div>
+    </div>
+    <p class="quiz-score" id="quizScore">Score : 0 / 5</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>Support de cours — Thème 0, NSI Première.</p>
+  <p>Sources principales :</p>
+  <ul>
+    <li>Didier Müller, <em>Informatique (presque) débranchée</em>, chapitre « Une petite histoire de l'informatique », novembre 2023.</li>
+    <li>ISET Mahdia, <em>Architecture et maintenance des ordinateurs</em>, chapitre 1.</li>
+    <li>« L'Ordinateur à Vapeur ! » — Scientory 08, <a href="https://www.youtube.com/watch?v=_SyOigrbeQs" target="_blank" rel="noopener">youtube.com/watch?v=_SyOigrbeQs</a></li>
+  </ul>
+</footer>
+
+<script>
+document.querySelectorAll('.q').forEach(function(q){
+  var correct = parseInt(q.dataset.correct, 10);
+  var buttons = q.querySelectorAll('.opt');
+  var feedback = q.querySelector('.feedback');
+  var answered = false;
+  buttons.forEach(function(btn, i){
+    btn.addEventListener('click', function(){
+      if(answered) return;
+      answered = true;
+      buttons.forEach(function(b, j){
+        if(j === correct) b.classList.add('correct');
+        else if (j === i) b.classList.add('wrong');
+        b.disabled = true;
+      });
+      feedback.style.display = 'block';
+      if(i === correct){
+        var scoreEl = document.getElementById('quizScore');
+        var current = parseInt(scoreEl.dataset.score || '0', 10) + 1;
+        scoreEl.dataset.score = current;
+        scoreEl.textContent = 'Score : ' + current + ' / 5';
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
